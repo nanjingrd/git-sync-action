@@ -28,6 +28,9 @@ echo "::set-output name=time::$time"
 # RUNNER_ARCH	执行作业的运行器的架构。 可能的值包括 X86、X64、ARM 或 ARM64。
 # RUNNER_NAME	执行作业的运行器的名称。 例如 Hosted Agent
 # RUNNER_TOOL_CACHE	包含 GitHub 托管运行器预安装工具的目录路径。 更多信息请参阅“关于 GitHub 托管的运行器”。 例如 C:\hostedtoolcache\windows
+echo "-----------------------Pre Define------------------------"
+export CI_SERVER_HOST="github.com"
+echo "-------------------------------ENVIRONMENT VARIABLES-------------------------------"
 echo "CI="$CI
 echo "GITHUB_ACTION="$GITHUB_ACTION
 echo "GitHub="$GitHub
@@ -52,3 +55,26 @@ echo "GITHUB_WORKFLOW="$GITHUB_WORKFLOW
 echo "RUNNER_ARCH="$RUNNER_ARCH
 echo "RUNNER_NAME="$RUNNER_NAME
 echo "RUNNER_TOOL_CACHE="$RUNNER_TOOL_CACHE
+echo "---------------------------------------------cache file before runing-----------------------------"
+mkdir -p ~/source
+ls ~/source
+echo "---------------------------------------------git clone from github--------------------------------"
+cd ~/source
+echo "ID_RSA_P="$ID_RSA_P
+echo "${ID_RSA_P}" | base64 -d > /git_id_rsa
+chmod 400 /git_id_rsa
+git config user.email "devops@cprd.tech"
+git config user.name "codesync"
+#git clone git@github.com:nanjingrd/datagate.git
+if [ -f "./therepo" ]; then
+    echo "./therepo exist"
+else
+    git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
+fi
+cd ~/therepo
+git pull
+git log | cat
+echo "---------------------------------------------cache file after running-----------------------------"
+ls ~/source
+ls ~/source/therepo
+
