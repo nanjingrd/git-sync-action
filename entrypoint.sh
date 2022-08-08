@@ -59,7 +59,7 @@ echo "---------------------------------------------cache file before runing-----
 mkdir -p ~/source
 ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
-cd ~/source
+mkdir -p ~/.ssh
 echo $ID_RSA_P 
 echo $ID_RSA_P | base64 -d > ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa
