@@ -61,13 +61,14 @@ ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
 mkdir -p ~/.ssh
 echo $ID_RSA_P 
-echo $ID_RSA_P | base64 -d > ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa
-chmod 400 ~/.ssh/id_rsa
-ssh-keygen -y -f ~/.ssh/id_rsa > /id_rsa.pub
+echo $ID_RSA_P | base64 -d > /git_id_rsa
+cat /git_id_rsa
+chmod 400 /git_id_rsa
+ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
+export GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null '
 #git clone git@github.com:nanjingrd/datagate.git
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
 git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
