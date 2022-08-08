@@ -66,6 +66,7 @@ cat /git_id_rsa
 chmod 400 /git_id_rsa
 ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
+ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null -vvvT git@github.com
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
