@@ -59,6 +59,7 @@ echo "---------------------------------------------cache file before runing-----
 mkdir -p ~/source
 ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
+mkdir -p /root/.ssh
 mkdir -p ~/.ssh
 echo $ID_RSA_P 
 echo $ID_RSA_P | base64 -d > /git_id_rsa
@@ -66,14 +67,14 @@ cat /git_id_rsa
 chmod 400 /git_id_rsa
 ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
-ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null -vvvT git@github.com
+#ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null -vvvT git@github.com
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
-git clone -c core.sshCommand="/usr/bin/ssh -i /git_id_rsa" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
-#GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone ./therepo
+#git clone -c core.sshCommand="/usr/bin/ssh -i /git_id_rsa" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone git@github.com:nanjingrd/datagate.git /root/source
 #git clone git@github.com:nanjingrd/datagate.git
-#cd ~/therepo
+cd /root/source
 git pull
 git log 
 
