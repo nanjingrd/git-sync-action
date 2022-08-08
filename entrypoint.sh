@@ -68,10 +68,9 @@ ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
-export GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null '
-#git clone git@github.com:nanjingrd/datagate.git
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
-GIT_TRACE=1 git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
+#git clone git@github.com:nanjingrd/datagate.git
 cd ~/therepo
 git pull
 git log 
