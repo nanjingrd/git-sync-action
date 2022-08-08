@@ -64,6 +64,8 @@ echo $ID_RSA_P
 echo $ID_RSA_P | base64 -d > /git_id_rsa
 cat /git_id_rsa
 chmod 400 /git_id_rsa
+ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
+cat  /id_rsa.pub
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 #git clone git@github.com:nanjingrd/datagate.git
