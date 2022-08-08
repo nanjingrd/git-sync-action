@@ -70,9 +70,10 @@ ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/nu
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
+git clone -c core.sshCommand="/usr/bin/ssh -i /git_id_rsa" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
+#GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone ./therepo
 #git clone git@github.com:nanjingrd/datagate.git
-cd ~/therepo
+#cd ~/therepo
 git pull
 git log 
 
