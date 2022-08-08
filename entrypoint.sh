@@ -60,17 +60,15 @@ mkdir -p ~/source
 ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
 cd ~/source
-echo "ID_RSA_P="$ID_RSA_P
+echo $ID_RSA_P | sed 's/./& /g'
 echo "${ID_RSA_P}" | base64 -d > /git_id_rsa
+cat /git_id_rsa
 chmod 400 /git_id_rsa
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 #git clone git@github.com:nanjingrd/datagate.git
-if [ -f "./therepo" ]; then
-    echo "./therepo exist"
-else
-    git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
-fi
+echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
+git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
 cd ~/therepo
 git pull
 git log | cat
