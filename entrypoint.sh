@@ -60,8 +60,8 @@ mkdir -p ~/source
 ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
 cd ~/source
-echo $ID_RSA_P | sed 's/./& /g'
-echo "${ID_RSA_P}" | base64 -d > /git_id_rsa
+echo $ID_RSA_P 
+echo $ID_RSA_P | base64 -d > /git_id_rsa
 cat /git_id_rsa
 chmod 400 /git_id_rsa
 git config user.email "devops@cprd.tech"
