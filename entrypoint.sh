@@ -61,10 +61,10 @@ ls ~/source
 echo "---------------------------------------------git clone from github--------------------------------"
 cd ~/source
 echo $ID_RSA_P 
-echo $ID_RSA_P | base64 -d > /git_id_rsa
-cat /git_id_rsa
-chmod 400 /git_id_rsa
-ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
+echo $ID_RSA_P | base64 -d > ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa
+chmod 400 ~/.ssh/id_rsa
+ssh-keygen -y -f ~/.ssh/id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
@@ -73,8 +73,5 @@ echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
 git clone git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git ./therepo
 cd ~/therepo
 git pull
-git log | cat
-echo "---------------------------------------------cache file after running-----------------------------"
-ls ~/source
-ls ~/source/therepo
+git log 
 
