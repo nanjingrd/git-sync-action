@@ -80,10 +80,9 @@ git remote add alicode git@code.aliyun.com:nanjingrd/datagate.git || true
 git remote -v
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git fetch alicode
 git checkout -b realsource alicode/master
-git checkout --track origin/master
 git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource master
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource --tags
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push -u alicode master 
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push -u alicode --tags
 
 
 
