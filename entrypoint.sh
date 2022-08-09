@@ -68,13 +68,22 @@ chmod 400 /git_id_rsa
 ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
 cat  /id_rsa.pub
 #ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null -vvvT git@github.com
-git config user.email "devops@cprd.tech"
-git config user.name "codesync"
+
 echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
 #git clone -c core.sshCommand="/usr/bin/ssh -i /git_id_rsa" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone git@github.com:nanjingrd/datagate.git /root/source
 #git clone git@github.com:nanjingrd/datagate.git
 cd /root/source
-git pull
-git log 
+git config user.email "devops@cprd.tech"
+git config user.name "codesync"
+git remote add alicode git@code.aliyun.com:nanjingrd/datagate.git || true 
+git remote -v
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git fetch alicode
+git checkout -b realsource alicode/master
+git checkout --track origin/master
+git merge realsource --allow-unrelated-histories   --strategy-option theirs --no-edit
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource master
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource --tags
+
+
 
