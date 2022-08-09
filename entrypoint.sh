@@ -1,5 +1,5 @@
 #!/bin/sh -l
-
+set -x
 echo "Hello $1"
 time=$(date)
 echo "::set-output name=time::$time"
@@ -81,7 +81,7 @@ git remote -v
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git fetch alicode
 git checkout -b realsource alicode/master
 git checkout --track origin/master
-git merge realsource --allow-unrelated-histories   --strategy-option theirs --no-edit
+git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource master
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push realsource --tags
 
