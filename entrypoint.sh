@@ -61,7 +61,7 @@ sleep 2
 mkdir -p ~/source
 ls ~/source
 
-export git_source= $1
+export git_source=$1
 export git_source_key=$2
 export git_remote=$3
 export git_remote_key=$4
