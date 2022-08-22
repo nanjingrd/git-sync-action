@@ -57,6 +57,7 @@ echo "RUNNER_ARCH="$RUNNER_ARCH
 echo "RUNNER_NAME="$RUNNER_NAME
 echo "RUNNER_TOOL_CACHE="$RUNNER_TOOL_CACHE
 echo "---------------------------------------------cache file before runing-----------------------------"
+sleep 2
 mkdir -p ~/source
 ls ~/source
 
