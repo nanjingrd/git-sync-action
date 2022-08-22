@@ -99,8 +99,8 @@ for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
     git remote add sync_remote $git_remote || true 
     git remote -v
     GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git fetch sync_remote
-    git fetch --all
-    git checkout -b realsource sync_remote/$branch
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git fetch --all
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git checkout -b realsource sync_remote/$branch
     git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
     GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote $branch 
 done
