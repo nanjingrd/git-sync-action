@@ -74,8 +74,8 @@ chmod 400 /git_source_key
 
 echo $git_remote_key | base64 -d > /git_remote_key
 chmod 400 /git_remote_key
-#ssh-keygen -y -f /git_source_key > /git_source_key.pub
-#cat  /git_source_key.pub
+ssh-keygen -y -f /git_source_key > /git_source_key.pub
+cat  /git_source_key.pub
 #ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null -vvvT git@github.com
 
 #echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
