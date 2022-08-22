@@ -1,5 +1,5 @@
 #!/bin/sh -l
-set -x
+set -ex
 echo "Hello $1"
 time=$(date)
 echo "::set-output name=time::$time"
@@ -29,7 +29,7 @@ echo "::set-output name=time::$time"
 # RUNNER_NAME	执行作业的运行器的名称。 例如 Hosted Agent
 # RUNNER_TOOL_CACHE	包含 GitHub 托管运行器预安装工具的目录路径。 更多信息请参阅“关于 GitHub 托管的运行器”。 例如 C:\hostedtoolcache\windows
 echo "-----------------------Pre Define------------------------"
-export CI_SERVER_HOST="github.com"
+#export CI_SERVER_HOST="github.com"
 echo "-------------------------------ENVIRONMENT VARIABLES-------------------------------"
 
 echo "CI="$CI
