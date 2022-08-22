@@ -31,6 +31,7 @@ echo "::set-output name=time::$time"
 echo "-----------------------Pre Define------------------------"
 export CI_SERVER_HOST="github.com"
 echo "-------------------------------ENVIRONMENT VARIABLES-------------------------------"
+
 echo "CI="$CI
 echo "GITHUB_ACTION="$GITHUB_ACTION
 echo "GitHub="$GitHub
@@ -58,31 +59,46 @@ echo "RUNNER_TOOL_CACHE="$RUNNER_TOOL_CACHE
 echo "---------------------------------------------cache file before runing-----------------------------"
 mkdir -p ~/source
 ls ~/source
+
+export git_source=$1
+export git_source_key=$2
+export git_remote=$3
+export git_remote_key=$4
 echo "---------------------------------------------git clone from github--------------------------------"
 mkdir -p /root/.ssh
 mkdir -p ~/.ssh
-echo $ID_RSA_P 
-echo $ID_RSA_P | base64 -d > /git_id_rsa
-cat /git_id_rsa
-chmod 400 /git_id_rsa
-ssh-keygen -y -f /git_id_rsa > /id_rsa.pub
-cat  /id_rsa.pub
-#ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null -vvvT git@github.com
 
-echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
-#git clone -c core.sshCommand="/usr/bin/ssh -i /git_id_rsa" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git clone git@github.com:nanjingrd/datagate.git /root/source
+echo $git_source_key | base64 -d > /git_source_key
+chmod 400 /git_source_key
+
+echo $git_remote_key | base64 -d > /git_remote_key
+chmod 400 /git_remote_key
+#ssh-keygen -y -f /git_source_key > /git_source_key.pub
+#cat  /git_source_key.pub
+#ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null -vvvT git@github.com
+
+#echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
+#git clone -c core.sshCommand="/usr/bin/ssh -i /git_source_key" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
+mkdir ./code
+cd ./code
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null ' git clone --mirror $git_source .git
+git config --bool core.bare false
+git reset --hard
 #git clone git@github.com:nanjingrd/datagate.git
-cd /root/source
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
-git remote add alicode git@code.aliyun.com:nanjingrd/datagate.git || true 
-git remote -v
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git fetch alicode
-git checkout -b realsource alicode/master
-git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push -u alicode master 
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_id_rsa -F /dev/null ' git push -u alicode --tags
+
+for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
+    echo $branch
+    git remote add sync_remote $git_remote || true 
+    git remote -v
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git fetch sync_remote
+    git checkout -b realsource sync_remote/$branch
+    git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote $branch 
+done
+
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote --tags
 
 
 

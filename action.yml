@@ -1,16 +1,31 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Sync Code'
+description: 'Sync between alicode and github'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  git_source:  # id of input
+    description: 'git url of source repo'
     required: true
-    default: 'World'
+    default: ''
+  git_source_key:  # id of input
+    description: 'key of source repo'
+    required: true
+    default: ''
+  git_remote:  # id of input
+    description: 'git url of remote repo'
+    required: true
+    default: ''
+  git_remote_key:  # id of input
+    description: 'key of remote repo'
+    required: true
+    default: ''
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  sync_code: # id of output
+    description: 'The sync code'
+  sync_result: # id of output
+    description: 'The sync result'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.who-to-greet }}
+ 
