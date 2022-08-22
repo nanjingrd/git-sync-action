@@ -27,5 +27,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.git_source }} ${{ inputs.git_source_key }}  ${{ inputs.git_remote }}  ${{ inputs.git_remote_key }}
+    - ${{ inputs.git_source }} 
+    - ${{ inputs.git_source_key }}  
+    - ${{ inputs.git_remote }}  
+    - ${{ inputs.git_remote_key }}
  

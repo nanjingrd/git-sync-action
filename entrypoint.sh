@@ -82,7 +82,7 @@ chmod 400 /git_remote_key
 #git clone -c core.sshCommand="/usr/bin/ssh -i /git_source_key" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
 mkdir ./code
 cd ./code
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null ' git clone --mirror $git_source
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null ' git clone --mirror $git_source .git
 git config --bool core.bare false
 git reset --hard
 #git clone git@github.com:nanjingrd/datagate.git
