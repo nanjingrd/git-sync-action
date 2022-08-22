@@ -100,5 +100,8 @@ done
 
 GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote --tags
 
+echo "::set-output name=sync_code::$?"
+echo "::set-output name=sync_result::' ' "
+
 
 
