@@ -72,10 +72,10 @@ chmod 400 /tmp/git_source_key
 echo $git_remote_key | base64 -d > /tmp/git_remote_key
 chmod 400 /tmp/git_remote_key
 
-ssh-keygen -y -f /git_source_key > /tmp/git_source_key.pub
+ssh-keygen -y -f /tmp/git_source_key > /tmp/git_source_key.pub
 cat  /tmp/git_source_key.pub
 
-ssh-keygen -y -f /git_remote_key > /tmp/git_remote_key.pub
+ssh-keygen -y -f /tmp/git_remote_key > /tmp/git_remote_key.pub
 cat  /tmp/git_remote_key.pub
 
 #ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null -vvvT git@github.com
