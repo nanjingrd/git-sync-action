@@ -1,8 +1,5 @@
 #!/bin/sh -l
 set -ex
-echo "Hello $1"
-time=$(date)
-echo "::set-output name=time::$time"
 # CI	始终设置为 true。
 # GITHUB_ACTION	当前运行的操作的名称，或步骤的 id。 例如，对于操作 __repo-owner_name-of-action-repo。
 
@@ -28,36 +25,36 @@ echo "::set-output name=time::$time"
 # RUNNER_ARCH	执行作业的运行器的架构。 可能的值包括 X86、X64、ARM 或 ARM64。
 # RUNNER_NAME	执行作业的运行器的名称。 例如 Hosted Agent
 # RUNNER_TOOL_CACHE	包含 GitHub 托管运行器预安装工具的目录路径。 更多信息请参阅“关于 GitHub 托管的运行器”。 例如 C:\hostedtoolcache\windows
-echo "-----------------------Pre Define------------------------"
-#export CI_SERVER_HOST="github.com"
-echo "-------------------------------ENVIRONMENT VARIABLES-------------------------------"
+# echo "-----------------------Pre Define------------------------"
+# export CI_SERVER_HOST="github.com"
+# echo "-------------------------------ENVIRONMENT VARIABLES-------------------------------"
 
-echo "CI="$CI
-echo "GITHUB_ACTION="$GITHUB_ACTION
-echo "GitHub="$GitHub
-echo "GITHUB_ACTION_PATH="$GITHUB_ACTION_PATH
-echo "GITHUB_ACTION_REPOSITORY="$GITHUB_ACTION_REPOSITORY
-echo "GITHUB_ACTIONS="$GITHUB_ACTIONS
-echo "GITHUB_ACTOR="$GITHUB_ACTOR
-echo "GITHUB_API_URL="$GITHUB_API_URL
-echo "GITHUB_BASE_REF="$GITHUB_BASE_REF
-echo "GITHUB_ENV="$GITHUB_ENV
-echo "GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME
-echo "GITHUB_EVENT_PATH="$GITHUB_EVENT_PATH
-echo "GITHUB_GRAPHQL_URL="$GITHUB_GRAPHQL_URL
-echo "GITHUB_HEAD_REF="$GITHUB_HEAD_REF
-echo "GITHUB_JOB="$GITHUB_JOB
-echo "GITHUB_PATH="$GITHUB_PATH
-echo "GITHUB_REF="$GITHUB_REF
-echo "GITHUB_REF_NAME="$GITHUB_REF_NAME
-echo "GITHUB_REPOSITORY="$GITHUB_REPOSITORY
-echo "GITHUB_STEP_SUMMARY="$GITHUB_STEP_SUMMARY
-echo "GITHUB_WORKFLOW="$GITHUB_WORKFLOW
-echo "RUNNER_ARCH="$RUNNER_ARCH
-echo "RUNNER_NAME="$RUNNER_NAME
-echo "RUNNER_TOOL_CACHE="$RUNNER_TOOL_CACHE
-echo "---------------------------------------------cache file before runing-----------------------------"
-sleep 2
+# echo "CI="$CI
+# echo "GITHUB_ACTION="$GITHUB_ACTION
+# echo "GitHub="$GitHub
+# echo "GITHUB_ACTION_PATH="$GITHUB_ACTION_PATH
+# echo "GITHUB_ACTION_REPOSITORY="$GITHUB_ACTION_REPOSITORY
+# echo "GITHUB_ACTIONS="$GITHUB_ACTIONS
+# echo "GITHUB_ACTOR="$GITHUB_ACTOR
+# echo "GITHUB_API_URL="$GITHUB_API_URL
+# echo "GITHUB_BASE_REF="$GITHUB_BASE_REF
+# echo "GITHUB_ENV="$GITHUB_ENV
+# echo "GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME
+# echo "GITHUB_EVENT_PATH="$GITHUB_EVENT_PATH
+# echo "GITHUB_GRAPHQL_URL="$GITHUB_GRAPHQL_URL
+# echo "GITHUB_HEAD_REF="$GITHUB_HEAD_REF
+# echo "GITHUB_JOB="$GITHUB_JOB
+# echo "GITHUB_PATH="$GITHUB_PATH
+# echo "GITHUB_REF="$GITHUB_REF
+# echo "GITHUB_REF_NAME="$GITHUB_REF_NAME
+# echo "GITHUB_REPOSITORY="$GITHUB_REPOSITORY
+# echo "GITHUB_STEP_SUMMARY="$GITHUB_STEP_SUMMARY
+# echo "GITHUB_WORKFLOW="$GITHUB_WORKFLOW
+# echo "RUNNER_ARCH="$RUNNER_ARCH
+# echo "RUNNER_NAME="$RUNNER_NAME
+# echo "RUNNER_TOOL_CACHE="$RUNNER_TOOL_CACHE
+# echo "---------------------------------------------cache file before runing-----------------------------"
+# sleep 2
 mkdir -p ~/source
 ls ~/source
 
