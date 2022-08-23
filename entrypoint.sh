@@ -85,27 +85,40 @@ cat  /git_remote_key.pub
 
 #echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
 #git clone -c core.sshCommand="/usr/bin/ssh -i /git_source_key" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
+rm -rf ./code
 mkdir ./code
 cd ./code
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_source_key -F /dev/null ' git clone --mirror $git_source .git
-git config --bool core.bare false
-git reset --hard
-#git clone git@github.com:nanjingrd/datagate.git
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git clone --mirror $git_source .git
+barecode=$(realpath ./)
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 
-for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
-    echo $branch
+cd $barecode
+
+git config --bool core.bare false
+git reset --hard
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git fetch -u --all
+git remote rm origin
+
+for branch in $(git for-each-ref refs/heads  | cut -d/ -f3- ); do
+    cd $barecode
+    cd ../
+    rm -rf ./branchcode
+    cp -r ./code ./branchcode
+    cd ./branchcode
+
+    #git clone git@github.com:nanjingrd/datagate.git
+
     git remote add sync_remote $git_remote || true 
     git remote -v
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git fetch sync_remote
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git fetch -u --all
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git checkout -b realsource sync_remote/$branch
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git fetch sync_remote
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' 
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git checkout -b realsource sync_remote/$branch
     git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote $branch 
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git push -u sync_remote $branch 
 done
 
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /git_remote_key -F /dev/null ' git push -u sync_remote --tags
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git push -u sync_remote --tags
 
 echo "::set-output name=sync_code::$?"
 echo "::set-output name=sync_result::' ' "
