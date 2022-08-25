@@ -23,10 +23,10 @@ outputs:
     description: 'sync result'
   message: 
     description: 'action message'
-  returncode: 
-    description: 'sync code'
+  return_code: 
+    description: 'return_code'
   run_log: 
-    description: 'sync log'
+    description: 'run_log'
 runs:
   using: 'docker'
   image: 'Dockerfile'
