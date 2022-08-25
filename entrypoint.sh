@@ -11,16 +11,21 @@ echo 0 > /tmp/git-sync-returncode.txt
 
 set -o pipefail; /sync.sh  2>&1 | tee /tmp/git-sync-aciton.log || echo $? > /tmp/git-sync-returncode.txt
 
-export sync_code=`cat /tmp/git-sync-returncode.txt`
+export returncode=`cat /tmp/git-sync-returncode.txt`
 #unix2dos /tmp/git-sync-aciton.log
-export sync_log=`tail -n 18  /tmp/git-sync-aciton.log` 
+export run_log=`tail -n 18  /tmp/git-sync-aciton.log` 
 
-sync_log="${sync_log//'%'/'%25'}"
-sync_log="${sync_log//$'\n'/'%0A'}"
-sync_log="${sync_log//$'\r'/'%0D'}"
+run_log="${run_log//'%'/'%25'}"
+run_log="${run_log//$'\n'/'%0A'}"
+run_log="${run_log//$'\r'/'%0D'}"
 
-echo "::set-output name=sync_code::$sync_code"
-echo "::set-output name=sync_log::$sync_log"
+if [[ "${returncode}" -ne 0 ]]; then export succeed="false"; else  export  succeed="true"; fi 
+if [[ "${returncode}" -ne 0 ]]; then export message="$git_source sync to $git_remote  Failed"; else  export  message="$git_source sync to $git_remote successed"; fi
 
-exit $sync_code
+echo "::set-output name=succeed::$succeed"
+echo "::set-output name=message::$message"
+echo "::set-output name=returncode::$returncode"
+echo "::set-output name=run_log::$run_log"
+
+exit $returncode
 

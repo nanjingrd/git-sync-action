@@ -19,10 +19,14 @@ inputs:
     required: true
     default: ''
 outputs:
-  sync_code: # id of output
-    description: 'The sync code'
-  sync_log: # id of output
-    description: 'The sync result'
+  succeed: 
+    description: 'sync result'
+  message: 
+    description: 'action message'
+  returncode: 
+    description: 'sync code'
+  run_log: 
+    description: 'sync log'
 runs:
   using: 'docker'
   image: 'Dockerfile'
