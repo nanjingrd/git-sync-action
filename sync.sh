@@ -103,10 +103,9 @@ for branch in $(git for-each-ref refs/heads  | cut -d/ -f3- ); do
 
     #git clone git@github.com:nanjingrd/datagate.git
 
-    git remote add sync_remote $git_remote || true 
+    git remote add sync_remote $git_remote 
     git remote -v
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git fetch sync_remote
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' 
+    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git fetch sync_remote 
     GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git checkout -b realsource sync_remote/$branch
     git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
     GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git push -u sync_remote $branch 
