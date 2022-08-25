@@ -1,7 +1,7 @@
 #!/bin/sh -l
 set -ex
 
-chomd +x /sync.sh
+chmod +x /sync.sh
 set -o pipefail; /sync.sh  2>&1 | tee /tmp/git-sync-aciton.log || echo \$? > /tmp/git-sync-returncode.txt
 
 export sync_code=`cat /tmp/git-sync-returncode.txt`
