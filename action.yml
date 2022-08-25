@@ -21,7 +21,7 @@ inputs:
 outputs:
   sync_code: # id of output
     description: 'The sync code'
-  sync_result: # id of output
+  sync_log: # id of output
     description: 'The sync result'
 runs:
   using: 'docker'
