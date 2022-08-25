@@ -12,7 +12,7 @@ echo 0 > /tmp/git-sync-returncode.txt
 set -o pipefail; /sync.sh  2>&1 | tee /tmp/git-sync-aciton.log || echo $? > /tmp/git-sync-returncode.txt
 
 export return_code=`cat /tmp/git-sync-returncode.txt`
-#unix2dos /tmp/git-sync-aciton.log
+if [[ "${return_code}" -ne 0 ]]; then export ln="18"; else  export ln="6"; fi 
 export run_log=`tail -n 18  /tmp/git-sync-aciton.log` 
 
 run_log="${run_log//'%'/'%25'}"
