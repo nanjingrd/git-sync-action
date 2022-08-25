@@ -12,7 +12,7 @@ echo 0 > /tmp/git-sync-returncode.txt
 set -o pipefail; /sync.sh  2>&1 | tee /tmp/git-sync-aciton.log || echo $? > /tmp/git-sync-returncode.txt
 
 export sync_code=`cat /tmp/git-sync-returncode.txt`
-unix2dos /tmp/git-sync-aciton.log
+#unix2dos /tmp/git-sync-aciton.log
 export sync_log=`cat /tmp/git-sync-aciton.log` 
 
 sync_log="${sync_log//'%'/'%25'}"
