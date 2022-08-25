@@ -22,5 +22,5 @@ sync_log="${sync_log//$'\r'/'%0D'}"
 echo "::set-output name=sync_code::$sync_code"
 echo "::set-output name=sync_log::$sync_log"
 
-return $returnCode
+exit $sync_code
 
