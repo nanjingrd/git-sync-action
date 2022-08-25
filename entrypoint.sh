@@ -27,5 +27,5 @@ echo "::set-output name=message::$message"
 echo "::set-output name=return_code::$return_code"
 echo "::set-output name=run_log::$run_log"
 
-exit $returncode
+exit $return_code
 
