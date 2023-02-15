@@ -80,38 +80,19 @@ ssh-keygen -y -f /tmp/git_remote_key > /tmp/git_remote_key.pub
 #echo "git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git"
 #git clone -c core.sshCommand="/usr/bin/ssh -i /git_source_key" git@${CI_SERVER_HOST}:${GITHUB_REPOSITORY}.git  /root/source  && cd /root/source
 rm -rf ./code
-mkdir ./code
-cd ./code
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git clone --mirror $git_source .git
-barecode=$(realpath ./)
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git clone --bare $git_source code
+barecode=$(realpath ./code)
+cd $barecode
 git config user.email "devops@cprd.tech"
 git config user.name "codesync"
 
-cd $barecode
 
-git config --bool core.bare false
-git reset --hard
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git fetch -u --all
-git remote rm origin
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null ' git push --mirror $git_remote
 
-for branch in $(git for-each-ref refs/heads  | cut -d/ -f3- ); do
-    cd $barecode
-    cd ../
-    rm -rf ./branchcode
-    cp -r ./code ./branchcode
-    cd ./branchcode
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null '  git push --set-upstream origin master
 
-    #git clone git@github.com:nanjingrd/datagate.git
+GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_source_key -F /dev/null '  git push --follow-tags
 
-    git remote add sync_remote $git_remote 
-    git remote -v
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git fetch sync_remote 
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git checkout -b realsource sync_remote/$branch
-    git merge realsource --allow-unrelated-histories   --strategy-option ours --no-edit
-    GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git push -u sync_remote $branch 
-done
-
-GIT_SSH_COMMAND='ssh -o  StrictHostKeyChecking=no -o IdentitiesOnly=yes -i /tmp/git_remote_key -F /dev/null ' git push -u sync_remote --tags
 
 
 
